@@ -1,0 +1,12 @@
+# Data pribadi & bahan mentah — jangan diunggah
+DATA-SAYA.md
+_extract/
+*.pdf
+
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Pengaturan lokal Claude Code (khusus mesin ini)
+.claude/settings.local.json

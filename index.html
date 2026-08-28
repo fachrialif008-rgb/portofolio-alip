@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="TelUtizen Starter Book — portofolio, analisis diri, Mind of Us, dan resume materi PKKMB Telkom University Jakarta 2026.">
+<meta name="theme-color" content="#0B0F1A">
+<title>TelUtizen Starter Book</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Sora:wght@600;700&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Lewati ke konten utama</a>
+
+<div class="bg" aria-hidden="true">
+  <span class="bg__glow bg__glow--violet"></span>
+  <span class="bg__glow bg__glow--coral"></span>
+</div>
+
+<!-- Ikon: sprite SVG inline, tidak butuh internet -->
+<svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-badge" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="14" rx="2.5"/><path d="M9 6V4h6v2M9 12h6M9 16h4"/></symbol>
+  <symbol id="i-groups" viewBox="0 0 24 24"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="10.5" r="2.2"/><path d="M3 19a6 6 0 0 1 12 0M16 19a4.5 4.5 0 0 1 5-4.4"/></symbol>
+  <symbol id="i-school" viewBox="0 0 24 24"><path d="M12 4 3 9l9 5 9-5-9-5Z"/><path d="M7 12v4c0 1.7 2.2 3 5 3s5-1.3 5-3v-4"/></symbol>
+  <symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 10 12 4l9 6"/><path d="M5 10v9M9.5 10v9M14.5 10v9M19 10v9M3 20h18"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s6-5.3 6-10a6 6 0 1 0-12 0c0 4.7 6 10 6 10Z"/><circle cx="12" cy="11" r="2.2"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-3.5 10.9V17h7v-3.1A6 6 0 0 0 12 3Z"/><path d="M9.5 20h5"/></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/><path d="M18.4 16.6l.6 1.8 1.8.6-1.8.6-.6 1.8-.6-1.8-1.8-.6 1.8-.6.6-1.8Z"/></symbol>
+  <symbol id="i-trend" viewBox="0 0 24 24"><path d="M4 16l5-5 3.5 3.5L20 7"/><path d="M15 7h5v5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v6"/><circle cx="12" cy="16.6" r=".95" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24"><path d="M12 3c3.5 2.2 5.5 5.6 5.5 9.5L12 18l-5.5-5.5C6.5 8.6 8.5 5.2 12 3Z"/><circle cx="12" cy="10" r="1.8"/><path d="M9.2 18.6c-1.2 1-1.7 2.2-1.6 3.4 1.2.1 2.4-.4 3.4-1.6M14.8 18.6c1.2 1 1.7 2.2 1.6 3.4-1.2.1-2.4-.4-3.4-1.6"/></symbol>
+  <symbol id="i-warning" viewBox="0 0 24 24"><path d="M12 4.5 21 19.5H3L12 4.5Z"/><path d="M12 10v4"/><circle cx="12" cy="16.9" r=".95" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="18" r="2"/><path d="M9.6 10.4 6.6 7.5M14.4 10.4l2.9-2.9M9.6 13.6l-3 2.9M14.4 13.6l2.9 2.9"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v6"/><circle cx="12" cy="7.8" r=".95" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
+  <symbol id="i-images" viewBox="0 0 24 24"><rect x="3" y="6" width="14" height="12" rx="2"/><path d="M7 18l4-4 3 3"/><circle cx="9" cy="10" r="1.3"/><path d="M17 8h2a2 2 0 0 1 2 2v8"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-6.5 8 6.5"/><path d="M6.5 10.5V20h11v-9.5"/></symbol>
+</svg>
+<header class="topbar">
+  <nav class="navpill glass" aria-label="Navigasi bagian">
+    <span class="navpill__brand">Starter Book</span>
+    <ul class="navpill__list">
+      <li><a href="#identitas">Identitas</a></li>
+      <li><a href="#tentang">Tentang</a></li>
+      <li><a href="#swot">SWOT</a></li>
+      <li><a href="#mindofus">Mind of Us</a></li>
+      <li><a href="#resume">Resume</a></li>
+      <li><a href="#galeri">Galeri</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="hero">
+    <div class="container hero__grid">
+      <div class="hero__body reveal">
+        <p class="eyebrow">TelUtizen 2026</p>
+        <h1 class="hero__name" data-bind="profil.nama">Nama Lengkap</h1>
+        <p class="hero__meta">
+          <span data-bind="profil.prodi"></span>
+          <span class="sep" aria-hidden="true">•</span>
+          <span data-bind="profil.fakultas"></span>
+        </p>
+        <ul class="chips" id="hero-kata" aria-label="Tiga kata yang menggambarkan diri"></ul>
+        <a class="btn btn--grad" href="#identitas">Lihat Portofolio</a>
+      </div>
+
+      <div class="hero__media reveal">
+        <figure class="photo">
+          <img id="foto-utama" src="assets/img/placeholder-portrait.svg" alt="" width="480" height="600">
+        </figure>
+        <div class="badge-gugus glass">
+          <span class="badge-gugus__icon"><svg class="icon" aria-hidden="true"><use href="#i-groups"/></svg></span>
+          <span class="badge-gugus__text">
+            <span class="over">Kelompok</span>
+            <strong data-bind="profil.gugus"></strong>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ IDENTITAS ============ -->
+  <section class="section" id="identitas">
+    <div class="container">
+      <header class="section__head reveal">
+        <p class="eyebrow">Section 01</p>
+        <h2>Identitas</h2>
+        <p class="section__sub">Data diri TelUtizen</p>
+      </header>
+      <div class="grid-cards" id="identitas-grid"></div>
+    </div>
+  </section>
+
+  <!-- ============ TENTANG SAYA ============ -->
+  <section class="section" id="tentang">
+    <div class="container">
+      <header class="section__head reveal">
+        <p class="eyebrow">Section 02</p>
+        <h2>Tentang Saya</h2>
+      </header>
+
+      <div class="about">
+        <article class="card glass about__bio reveal">
+          <h3 class="card__title accent">Profil Singkat</h3>
+          <p class="lead" data-bind="profil.deskripsi"></p>
+        </article>
+
+        <div class="about__side">
+          <article class="card glass reveal">
+            <h3 class="card__label"><svg class="icon icon--cyan" aria-hidden="true"><use href="#i-bulb"/></svg> Fun Fact</h3>
+            <p data-bind="profil.funFact"></p>
+          </article>
+          <article class="card glass reveal">
+            <h3 class="card__label"><svg class="icon icon--coral" aria-hidden="true"><use href="#i-sparkle"/></svg> Harapan</h3>
+            <p data-bind="profil.harapan"></p>
+          </article>
+        </div>
+      </div>
+
+      <div class="hobi reveal">
+        <p class="over">Hobi</p>
+        <ul class="chips chips--lg" id="hobi-list"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SWOT ============ -->
+  <section class="section" id="swot">
+    <div class="container">
+      <header class="section__head reveal">
+        <p class="eyebrow">SWOT</p>
+        <h2>Analisis Diri</h2>
+        <p class="section__sub">Potensi, hal yang perlu dikembangkan, peluang, dan tantangan</p>
+      </header>
+      <div class="swot" id="swot-grid"></div>
+    </div>
+  </section>
+
+  <!-- ============ MIND OF US ============ -->
+  <section class="section" id="mindofus">
+    <div class="container">
+      <header class="section__head reveal">
+        <p class="eyebrow">Section 03</p>
+        <h2>Mind of Us</h2>
+        <p class="section__sub">Identitas diri dan pengenalan teman satu kelompok</p>
+      </header>
+
+      <div class="mm reveal">
+        <div class="mm__canvas">
+          <svg class="mm__lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="mm-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#CABEFF"/>
+                <stop offset="50%" stop-color="#FF525C"/>
+                <stop offset="100%" stop-color="#00CBE6"/>
+              </linearGradient>
+            </defs>
+            <g id="mm-lines" stroke="url(#mm-grad)" stroke-width="1.5" fill="none" opacity=".55"
+               vector-effect="non-scaling-stroke"></g>
+          </svg>
+          <span class="mm__orbit" aria-hidden="true"></span>
+
+          <div class="mm__center">
+            <figure class="mm__avatar mm__avatar--me glass">
+              <img id="mm-foto" src="assets/img/placeholder-square.svg" alt="" width="140" height="140">
+            </figure>
+            <p class="mm__name" data-bind="profil.nama"></p>
+            <p class="mm__meta">
+              <span data-bind="profil.asalDaerah"></span> • <span data-bind="profil.prodi"></span>
+            </p>
+          </div>
+
+          <div class="mm__nodes" id="mm-nodes" role="group" aria-label="Anggota kelompok"></div>
+        </div>
+
+        <aside class="mm__detail card glass" id="mm-detail" aria-live="polite">
+          <h3 class="card__title accent">Detail Anggota</h3>
+          <figure class="mm__detail-photo">
+            <img id="mm-detail-foto" src="assets/img/placeholder-square.svg" alt="" width="96" height="96">
+            <figcaption id="mm-detail-nama">Pilih anggota</figcaption>
+          </figure>
+          <dl class="deflist">
+            <div><dt>Asal Daerah</dt><dd id="mm-asal">—</dd></div>
+            <div><dt>Program Studi</dt><dd id="mm-prodi">—</dd></div>
+            <div><dt>Fakultas</dt><dd id="mm-fakultas">—</dd></div>
+            <div><dt>Hobi</dt><dd id="mm-hobi">—</dd></div>
+            <div><dt>Fun Fact</dt><dd id="mm-funfact">—</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RESUME ============ -->
+  <section class="section" id="resume">
+    <div class="container">
+      <header class="section__head reveal">
+        <p class="eyebrow">Section 04</p>
+        <h2>Resume Materi PKKMB</h2>
+        <p class="section__sub">Poin utama, hal yang dipelajari, dan kesimpulan setiap materi</p>
+      </header>
+      <div class="ac" id="resume-list"></div>
+    </div>
+  </section>
+
+  <!-- ============ GALERI ============ -->
+  <section class="section" id="galeri">
+    <div class="container">
+      <header class="section__head section__head--row reveal">
+        <div>
+          <p class="eyebrow">Section 05</p>
+          <h2>Galeri Dokumentasi</h2>
+        </div>
+        <p class="section__count" id="galeri-count"></p>
+      </header>
+      <div class="gallery" id="galeri-grid"></div>
+    </div>
+  </section>
+
+  <!-- ============ PENUTUP ============ -->
+  <section class="section closing" id="penutup">
+    <div class="container">
+      <div class="closing__panel glass reveal">
+        <h2 class="closing__title gradient-text" data-bind="penutup.tagline"></h2>
+        <p class="closing__quote" data-bind="penutup.kutipan"></p>
+        <p class="over over--dim" data-bind="penutup.acara"></p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p><span data-bind="profil.nama"></span> <span class="sep">·</span> Gugus <span data-bind="profil.gugus"></span></p>
+    <p>TelUtizen Starter Book <span id="tahun"></span></p>
+  </div>
+</footer>
+
+<!-- Navigasi mobile -->
+<nav class="tabbar glass" aria-label="Navigasi mobile">
+  <a href="#hero"><svg class="icon" aria-hidden="true"><use href="#i-home"/></svg><span>Beranda</span></a>
+  <a href="#tentang"><svg class="icon" aria-hidden="true"><use href="#i-info"/></svg><span>Tentang</span></a>
+  <a href="#mindofus"><svg class="icon" aria-hidden="true"><use href="#i-map"/></svg><span>Kelompok</span></a>
+  <a href="#resume"><svg class="icon" aria-hidden="true"><use href="#i-doc"/></svg><span>Resume</span></a>
+  <a href="#galeri"><svg class="icon" aria-hidden="true"><use href="#i-images"/></svg><span>Galeri</span></a>
+</nav>
+
+<!-- Lightbox galeri -->
+<div class="lb" id="lightbox" hidden>
+  <div class="lb__backdrop" data-lb="close"></div>
+  <div class="lb__dialog" role="dialog" aria-modal="true" aria-label="Pratinjau foto">
+    <button class="lb__btn lb__btn--close" data-lb="close" aria-label="Tutup pratinjau">
+      <svg class="icon" aria-hidden="true"><use href="#i-close"/></svg>
+    </button>
+    <button class="lb__btn lb__btn--prev" data-lb="prev" aria-label="Foto sebelumnya">
+      <svg class="icon" aria-hidden="true"><use href="#i-left"/></svg>
+    </button>
+    <figure class="lb__figure">
+      <img id="lb-img" alt="">
+      <figcaption id="lb-cap"></figcaption>
+    </figure>
+    <button class="lb__btn lb__btn--next" data-lb="next" aria-label="Foto berikutnya">
+      <svg class="icon" aria-hidden="true"><use href="#i-right"/></svg>
+    </button>
+  </div>
+</div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/main.js"></script>
+
+
+
+
+
+</body>
+</html>
