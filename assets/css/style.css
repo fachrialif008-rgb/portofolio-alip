@@ -16,14 +16,16 @@
   --line-hi:rgba(255,255,255,.28);
   --line-soft:rgba(255,255,255,.055);
 
-  /* teks */
-  --text:#F4F4F5;
-  --text-2:#A1A1A6;
-  --text-3:#6A6A70;
+  /* teks: putih gading hangat, bukan putih murni. Putih penuh di latar
+     hitam menimbulkan halasi (huruf seolah "mengembang") dan terasa keras.
+     Tangga tiga tingkat, ketiganya >=4.5:1 di semua permukaan. */
+  --text:#EFEAE1;
+  --text-2:#ACA6A0;
+  --text-3:#8A837A;
 
-  /* aksen tunggal: putih */
-  --accent:#FFF;
-  --grad:linear-gradient(180deg,#FFF 0%,#FFF 42%,#7E7E85 100%);
+  /* aksen tunggal: gading. Cukup ubah --accent, --grad ikut menyesuaikan. */
+  --accent:#F5F1EA;
+  --grad:linear-gradient(180deg,var(--accent) 0%,var(--accent) 46%,#8A837A 100%);
 
   /* jejak warna, hanya sebagai penanda kuadran SWOT */
   --emerald:#8FD9B6;
@@ -52,12 +54,17 @@
   --pad-section:88px;
   --shadow:0 24px 60px rgba(0,0,0,.6);
   --ease:cubic-bezier(.22,1,.36,1);
+  /* lengkung yang lebih panjang & landai — dipakai animasi masuk viewport */
+  --ease-soft:cubic-bezier(.16,1,.3,1);
 }
 @media (min-width:768px){ :root{ --pad-section:132px; --gutter:32px; } }
 
 /* ---------- 2. Reset & dasar ---------- */
 *,*::before,*::after{ box-sizing:border-box; }
 html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+/* Saat mesin scroll di main.js aktif, matikan smooth bawaan browser
+   supaya keduanya tidak saling tarik. Kelas ini dipasang oleh JS. */
+html.js-scroll{ scroll-behavior:auto; }
 body{
   margin:0;
   background:var(--bg);
@@ -66,6 +73,10 @@ body{
   overflow-x:hidden;
   min-height:100vh;
   -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+  /* kerning & ligatur aktif — huruf besar Poppins jadi lebih rapat rapi */
+  font-kerning:normal;
 }
 img,svg{ display:block; max-width:100%; }
 img{ height:auto; }
@@ -77,13 +88,13 @@ a{ color:inherit; text-decoration:none; }
 button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
 dl,dd{ margin:0; }
 figure{ margin:0; }
-::selection{ background:#fff; color:#000; }
-:focus-visible{ outline:2px solid #fff; outline-offset:3px; border-radius:6px; }
+::selection{ background:var(--accent); color:#000; }
+:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:6px; }
 
 .skip-link{
   position:absolute; left:-9999px; top:12px; z-index:100;
   padding:10px 18px; border-radius:var(--r-pill);
-  background:#fff; color:#000; font-weight:700;
+  background:var(--accent); color:#000; font-weight:700;
 }
 .skip-link:focus{ left:24px; }
 
@@ -183,7 +194,7 @@ figure{ margin:0; }
   transition:transform .3s var(--ease),background .3s var(--ease),color .3s var(--ease);
 }
 /* Nama kelas btn--grad dipertahankan; tampilannya kini pil putih solid. */
-.btn--grad{ background:#fff; color:#000; }
+.btn--grad{ background:var(--accent); color:#000; }
 .btn--grad:hover{ transform:translateY(-2px); background:var(--text-2); }
 
 /* ---------- 5. Navigasi ---------- */
@@ -207,7 +218,7 @@ figure{ margin:0; }
   transition:color .25s var(--ease),background .25s var(--ease);
 }
 .navpill__list a:hover{ color:var(--text); background:var(--surface-hi); }
-.navpill__list a[aria-current="true"]{ color:#000; background:#fff; font-weight:600; }
+.navpill__list a[aria-current="true"]{ color:#000; background:var(--accent); font-weight:600; }
 
 .tabbar{
   position:fixed; bottom:0; left:0; right:0; z-index:50;
@@ -243,7 +254,7 @@ figure{ margin:0; }
              color .3s var(--ease),border-color .3s var(--ease);
 }
 .hero__quick a:hover{
-  background:#fff; color:#000; border-color:#fff; transform:translateY(-3px);
+  background:var(--accent); color:#000; border-color:var(--accent); transform:translateY(-3px);
 }
 .hero__quick .icon{ width:20px; height:20px; }
 
@@ -403,7 +414,7 @@ figure{ margin:0; }
   text-transform:uppercase; color:var(--text-3); text-align:center;
 }
 .mm__node:hover .mm__node-avatar,
-.mm__node[aria-pressed="true"] .mm__node-avatar{ border-color:#fff; }
+.mm__node[aria-pressed="true"] .mm__node-avatar{ border-color:var(--accent); }
 .mm__node:hover .mm__node-avatar img,
 .mm__node[aria-pressed="true"] .mm__node-avatar img{ filter:none; }
 .mm__node[aria-pressed="true"] .mm__node-name{ color:var(--text); }
@@ -525,7 +536,7 @@ figure{ margin:0; }
   border-radius:50%; background:var(--surface); border:1px solid var(--line);
   color:var(--text-2); transition:background .25s var(--ease),color .25s var(--ease);
 }
-.lb__btn:hover{ background:#fff; color:#000; }
+.lb__btn:hover{ background:var(--accent); color:#000; }
 .lb__btn--close{ position:absolute; top:-58px; right:0; }
 @media (max-width:600px){
   .lb__dialog{ flex-direction:column; width:100%; }
@@ -566,17 +577,24 @@ figure{ margin:0; }
 
 /* ---------- 15. Animasi masuk viewport ---------- */
 .reveal{
-  opacity:0; transform:translateY(20px);
-  transition:opacity .6s var(--ease),transform .6s var(--ease);
-  transition-delay:calc(var(--i,0) * 70ms);
+  opacity:0; transform:translateY(28px) scale(.99);
+  transition:opacity .95s var(--ease-soft),transform 1.05s var(--ease-soft),
+             filter .95s var(--ease-soft);
+  transition-delay:calc(var(--i,0) * 85ms);
+  will-change:opacity,transform;
 }
-.reveal.is-visible{ opacity:1; transform:none; }
+/* Blur hanya di layar lebar: di ponsel kelas bawah, mem-blur banyak kartu
+   sekaligus memicu jank karena setiap frame harus digambar ulang. */
+@media (min-width:768px){ .reveal{ filter:blur(7px); } }
+.reveal.is-visible{ opacity:1; transform:none; filter:blur(0); }
+/* Lepas will-change setelah animasi selesai agar tidak menahan lapisan GPU. */
+.reveal.is-done{ will-change:auto; }
 
 @media (prefers-reduced-motion:reduce){
   html{ scroll-behavior:auto; }
   *,*::before,*::after{ animation-duration:.001ms !important; animation-iteration-count:1 !important;
     transition-duration:.001ms !important; }
-  .reveal{ opacity:1; transform:none; }
+  .reveal{ opacity:1; transform:none; filter:none; }
 }
 
 /* ---------- 16. Print / ekspor PDF ----------
@@ -638,7 +656,7 @@ figure{ margin:0; }
   .ac__btn .icon{ display:none; }
   .ac__item{ break-inside:avoid; }
 
-  .reveal{ opacity:1 !important; transform:none !important; }
+  .reveal{ opacity:1 !important; transform:none !important; filter:none !important; }
   a{ color:inherit; text-decoration:none; }
   h1,h2,h3{ break-after:avoid; }
 }

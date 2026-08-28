@@ -341,6 +341,8 @@
         if (!e.isIntersecting) return;
         e.target.classList.add("is-visible");
         io.unobserve(e.target);
+        // Lepas will-change setelah transisi kelar (lihat .is-done di CSS).
+        setTimeout(function () { e.target.classList.add("is-done"); }, 1300);
       });
     }, { threshold: .12, rootMargin: "0px 0px -8% 0px" });
     target.forEach(function (n) { io.observe(n); });
@@ -373,7 +375,147 @@
     });
   }
 
-  /* ---------- 11. Jalankan ---------- */
+  /* ---------- 11. Gerak scroll halus ----------
+     Dua bagian: (a) tween sendiri untuk klik anchor, jauh lebih landai
+     daripada scroll-behavior:smooth bawaan Chrome yang pendek dan patah;
+     (b) inertia roda mouse bergaya lerp, hanya untuk pointer halus.
+     Di layar sentuh momentum bawaan OS sudah bagus, jadi tidak diganggu. */
+  function initSmoothScroll() {
+    var kurangiGerak = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+    var animasi = null;
+
+    function batasBawah() {
+      return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    }
+    function jepit(y) { return Math.min(Math.max(y, 0), batasBawah()); }
+    function batalTween() {
+      if (animasi) { cancelAnimationFrame(animasi); animasi = null; }
+    }
+
+    /* easeOutQuart: cepat di awal, mengendap panjang di akhir. */
+    function pelan(t) { return 1 - Math.pow(1 - t, 4); }
+
+    function tweenKe(hitungTujuan) {
+      batalTween();
+      // Inertia roda dimatikan dulu, kalau tidak keduanya menulis scrollY di
+      // frame yang sama dan halaman bergetar tarik-menarik.
+      hentikanInertia();
+      var awal = window.scrollY;
+      var jarak = jepit(hitungTujuan()) - awal;
+      if (Math.abs(jarak) < 2) return;
+      // Jarak jauh butuh waktu lebih lama, tapi dibatasi 1,4 detik.
+      var durasi = Math.min(1400, Math.max(620, Math.abs(jarak) * 0.55));
+      var mulai = performance.now();
+      animasi = requestAnimationFrame(function langkah(kini) {
+        var p = Math.min(1, (kini - mulai) / durasi);
+        // Tujuan dihitung ulang tiap frame: kalau tinggi halaman bergeser di
+        // tengah jalan (font baru selesai dimuat, gambar masuk), pendaratan
+        // tetap persis di sasaran, tidak melenceng beberapa puluh piksel.
+        var akhir = jepit(hitungTujuan());
+        window.scrollTo(0, awal + (akhir - awal) * pelan(p));
+        animasi = p < 1 ? requestAnimationFrame(langkah) : null;
+      });
+    }
+
+    /* (a) Klik anchor mana pun di halaman. */
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a || a.hasAttribute("data-lb")) return;
+      var id = a.getAttribute("href").slice(1);
+      var sasaran = id && document.getElementById(id);
+      if (!sasaran) return;
+      e.preventDefault();
+      var posisi = function () {
+        var sisa = parseFloat(getComputedStyle(sasaran).scrollMarginTop) || 0;
+        return sasaran.getBoundingClientRect().top + window.scrollY - sisa;
+      };
+      if (kurangiGerak) window.scrollTo(0, jepit(posisi()));
+      else tweenKe(posisi);
+      history.replaceState(null, "", "#" + id);
+      // Pindahkan fokus supaya pembaca layar ikut, tanpa memicu lompatan.
+      sasaran.setAttribute("tabindex", "-1");
+      sasaran.focus({ preventScroll: true });
+    });
+
+    /* (b) Inertia roda mouse. */
+    if (kurangiGerak || !window.matchMedia("(pointer:fine)").matches) return;
+    document.documentElement.classList.add("js-scroll");
+
+    var tujuan = window.scrollY;
+    var berjalan = false;
+    var ditulis = -1;     // posisi terakhir yang ditulis loop ini sendiri
+    var lalu = 0;
+    var LERP = 0.12;      // per frame 60fps; di bawah dinormalkan ke waktu nyata
+    var lightbox = $("#lightbox");
+
+    function hentikanInertia() { berjalan = false; ditulis = -1; }
+
+    function loop(kini) {
+      if (!berjalan) return;
+      var sekarang = window.scrollY;
+      /* Kalau posisi berpindah bukan karena kita — user menarik scrollbar,
+         menekan panah/PageDown, find-in-page, atau tween anchor mengambil alih —
+         loop mundur dan menyerahkan kendali. Tanpa pemeriksaan ini loop bisa
+         "lari": ia terus menarik halaman ke tujuan basi dan menimpa siapa pun. */
+      if (ditulis >= 0 && Math.abs(sekarang - ditulis) > 2) {
+        tujuan = sekarang;
+        hentikanInertia();
+        return;
+      }
+      var dt = Math.min(50, kini - lalu);
+      lalu = kini;
+      var delta = tujuan - sekarang;
+      if (Math.abs(delta) < 0.4) {
+        window.scrollTo(0, tujuan);
+        hentikanInertia();
+        return;
+      }
+      // Faktor bergantung dt, jadi kecepatan sama di monitor 60Hz maupun 144Hz.
+      var f = 1 - Math.pow(1 - LERP, dt / 16.667);
+      window.scrollTo(0, sekarang + delta * f);
+      ditulis = window.scrollY;
+      requestAnimationFrame(loop);
+    }
+
+    window.addEventListener("wheel", function (e) {
+      if (e.ctrlKey) return;                              // biarkan zoom
+      if (lightbox && !lightbox.hidden) return;           // overlay pakai scroll bawaan
+      var d = e.deltaY;
+      if (e.deltaMode === 1) d *= 16;                     // satuan baris
+      else if (e.deltaMode === 2) d *= window.innerHeight; // satuan halaman
+      e.preventDefault();
+      batalTween();
+      /* Saat loop menganggur, mulai dari posisi nyata — jangan mengandalkan
+         event scroll yang datangnya asinkron. Kalau loop sedang jalan, delta
+         ditumpuk ke tujuan supaya putaran roda beruntun terasa menambah laju. */
+      if (!berjalan) tujuan = window.scrollY;
+      tujuan = jepit(tujuan + d);
+      if (!berjalan) {
+        berjalan = true;
+        ditulis = -1;
+        lalu = performance.now();
+        requestAnimationFrame(loop);
+      }
+    }, { passive: false });
+
+    // Selaraskan lagi setiap kali posisi berubah di luar loop.
+    window.addEventListener("scroll", function () {
+      if (!berjalan) tujuan = window.scrollY;
+    }, { passive: true });
+    window.addEventListener("resize", function () { tujuan = jepit(tujuan); });
+
+    /* Tab disembunyikan: requestAnimationFrame dibekukan browser, jadi animasi
+       yang sedang jalan akan tersangkut di tengah dan menyentak saat tab dibuka
+       lagi. Lebih baik dihentikan dan disinkronkan ulang. */
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden) return;
+      batalTween();
+      hentikanInertia();
+      tujuan = window.scrollY;
+    });
+  }
+
+  /* ---------- 12. Jalankan ---------- */
   bindText();
   renderFoto();
   renderChips("#hero-kata", D.profil.tigaKata);
@@ -386,4 +528,5 @@
   initLightbox();
   initReveal();
   initScrollspy();
+  initSmoothScroll();
 })();

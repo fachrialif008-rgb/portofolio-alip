@@ -82,9 +82,22 @@ dipelajari, kesimpulan).
   putih transparan, tipografi display besar, dan foto galeri grayscale yang berwarna saat disentuh.
   Ini menggantikan gaya dark glassmorphism ungu/coral/cyan pada `DESIGN.md` — file itu disimpan
   sebagai catatan sejarah, bukan acuan yang berlaku sekarang.
-- Kalau mau memberi satu warna aksen (misal jingga DKV `#F97316`), ubah `--accent` dan `--grad` di
-  bagian 1 `style.css`. Empat warna kuadran SWOT ada di `--emerald`, `--amber`, `--sky`, `--rose`.
+- Warna teks memakai **gading hangat**, bukan putih murni: `--text` `#EFEAE1`, `--text-2` `#ACA6A0`,
+  `--text-3` `#8A837A`. Putih penuh di atas hitam menimbulkan halasi — huruf terlihat "mengembang"
+  dan terasa keras. Ketiga tingkat lolos kontras WCAG AA (≥4,5:1) di semua permukaan kartu; nilai
+  `--text-3` yang lama (`#6A6A70`) hanya 3,66:1 dan gagal untuk label mono 11px.
+- Semua elemen putih (tombol, pil nav aktif, skip link) mengambil `--accent`, jadi mengubah satu
+  token itu saja sudah mengganti seluruh aksen. Empat warna kuadran SWOT ada di `--emerald`,
+  `--amber`, `--sky`, `--rose`.
+- **Gerak scroll** ditangani `main.js`, bukan `scroll-behavior:smooth` bawaan browser yang pendek
+  dan patah. Dua bagian: klik anchor memakai tween `easeOutQuart` 0,6–1,4 detik yang menghitung
+  ulang sasaran tiap frame (jadi tetap mendarat tepat walau tinggi halaman bergeser saat font
+  selesai dimuat), dan roda mouse memakai inertia lerp yang dinormalkan ke waktu nyata sehingga
+  lajunya sama di monitor 60Hz maupun 144Hz. Inertia hanya aktif untuk pointer halus — di layar
+  sentuh momentum bawaan OS dibiarkan apa adanya. Keduanya mundur otomatis kalau posisi digeser
+  dari luar (tarik scrollbar, tombol panah, find-in-page) dan berhenti saat tab disembunyikan.
 - Responsif dari lebar 320px: navigasi pil di atas untuk ≥900px, tab bar bawah untuk layar kecil,
   peta radial Mind of Us berubah jadi grid node terpusat di bawah 1000px, dan semua target sentuh
   minimal 44px.
-- Menghormati `prefers-reduced-motion`: animasi mati kalau OS user meminta begitu.
+- Menghormati `prefers-reduced-motion`: animasi mati kalau OS user meminta begitu, dan mesin scroll
+  halus ikut nonaktif — klik anchor jadi lompatan langsung.
