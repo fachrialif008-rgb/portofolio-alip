@@ -74,11 +74,17 @@ dipelajari, kesimpulan).
 
 ## Catatan teknis
 
-- Bekerja tanpa internet, kecuali font Google (Sora, Inter, JetBrains Mono) yang jatuh ke font
-  sistem kalau offline.
+- Bekerja tanpa internet, kecuali font Google (Poppins, Sora, Inter, JetBrains Mono) yang jatuh ke
+  font sistem kalau offline.
 - Ikon memakai sprite SVG inline di `index.html`, bukan icon font — tidak ada risiko ikon muncul
   sebagai tulisan.
-- Palet warnanya mengikuti hasil Stitch (violet `#CABEFF`, coral `#FF525C`, cyan `#00CBE6`), bukan
-  merah Telkom seperti di `DESIGN.md`. Kalau mau diselaraskan, ubah `--violet`, `--coral`, `--cyan`,
-  dan `--grad` di bagian 1 `style.css`.
+- Gaya visualnya **monokrom minimalis**: latar hitam pekat `#000`, kartu solid dengan garis hairline
+  putih transparan, tipografi display besar, dan foto galeri grayscale yang berwarna saat disentuh.
+  Ini menggantikan gaya dark glassmorphism ungu/coral/cyan pada `DESIGN.md` — file itu disimpan
+  sebagai catatan sejarah, bukan acuan yang berlaku sekarang.
+- Kalau mau memberi satu warna aksen (misal jingga DKV `#F97316`), ubah `--accent` dan `--grad` di
+  bagian 1 `style.css`. Empat warna kuadran SWOT ada di `--emerald`, `--amber`, `--sky`, `--rose`.
+- Responsif dari lebar 320px: navigasi pil di atas untuk ≥900px, tab bar bawah untuk layar kecil,
+  peta radial Mind of Us berubah jadi grid node terpusat di bawah 1000px, dan semua target sentuh
+  minimal 44px.
 - Menghormati `prefers-reduced-motion`: animasi mati kalau OS user meminta begitu.

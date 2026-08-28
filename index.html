@@ -4,20 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="TelUtizen Starter Book — portofolio, analisis diri, Mind of Us, dan resume materi PKKMB Telkom University Jakarta 2026.">
-<meta name="theme-color" content="#0B0F1A">
+<meta name="theme-color" content="#000000">
 <title>TelUtizen Starter Book</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Sora:wght@600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Poppins:wght@600;700;800&family=Sora:wght@600;700;800&display=swap">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Lewati ke konten utama</a>
 
 <div class="bg" aria-hidden="true">
-  <span class="bg__glow bg__glow--violet"></span>
-  <span class="bg__glow bg__glow--coral"></span>
+  <span class="bg__glow bg__glow--top"></span>
+  <span class="bg__glow bg__glow--bottom"></span>
 </div>
 
 <!-- Ikon: sprite SVG inline, tidak butuh internet -->
@@ -62,31 +62,41 @@
 
   <!-- ============ HERO ============ -->
   <section class="hero" id="hero">
-    <div class="container hero__grid">
-      <div class="hero__body reveal">
-        <p class="eyebrow">TelUtizen 2026</p>
-        <h1 class="hero__name" data-bind="profil.nama">Nama Lengkap</h1>
-        <p class="hero__meta">
-          <span data-bind="profil.prodi"></span>
-          <span class="sep" aria-hidden="true">•</span>
-          <span data-bind="profil.fakultas"></span>
-        </p>
-        <ul class="chips" id="hero-kata" aria-label="Tiga kata yang menggambarkan diri"></ul>
-        <a class="btn btn--grad" href="#identitas">Lihat Portofolio</a>
+    <div class="container hero__inner reveal">
+      <p class="eyebrow">TelUtizen 2026</p>
+
+      <!-- Tiga pintasan bundar ke bagian utama -->
+      <nav class="hero__quick" aria-label="Pintasan bagian utama">
+        <a href="#tentang" aria-label="Ke bagian Tentang Saya" title="Tentang Saya">
+          <svg class="icon" aria-hidden="true"><use href="#i-user"/></svg>
+        </a>
+        <a href="#mindofus" aria-label="Ke bagian Mind of Us" title="Mind of Us">
+          <svg class="icon" aria-hidden="true"><use href="#i-map"/></svg>
+        </a>
+        <a href="#resume" aria-label="Ke bagian Resume Materi" title="Resume Materi">
+          <svg class="icon" aria-hidden="true"><use href="#i-doc"/></svg>
+        </a>
+      </nav>
+
+      <h1 class="hero__name" data-bind="profil.nama">Nama Lengkap</h1>
+
+      <p class="hero__meta">
+        <span data-bind="profil.prodi"></span>
+        <span class="sep" aria-hidden="true">•</span>
+        <span data-bind="profil.fakultas"></span>
+      </p>
+
+      <div class="badge-gugus glass">
+        <span class="badge-gugus__icon"><svg class="icon" aria-hidden="true"><use href="#i-groups"/></svg></span>
+        <span class="badge-gugus__text">
+          <span class="over">Kelompok</span>
+          <strong data-bind="profil.gugus"></strong>
+        </span>
       </div>
 
-      <div class="hero__media reveal">
-        <figure class="photo">
-          <img id="foto-utama" src="assets/img/placeholder-portrait.svg" alt="" width="480" height="600">
-        </figure>
-        <div class="badge-gugus glass">
-          <span class="badge-gugus__icon"><svg class="icon" aria-hidden="true"><use href="#i-groups"/></svg></span>
-          <span class="badge-gugus__text">
-            <span class="over">Kelompok</span>
-            <strong data-bind="profil.gugus"></strong>
-          </span>
-        </div>
-      </div>
+      <ul class="chips" id="hero-kata" aria-label="Tiga kata yang menggambarkan diri"></ul>
+
+      <a class="btn btn--grad" href="#identitas">Lihat Portofolio</a>
     </div>
   </section>
 
@@ -111,6 +121,12 @@
       </header>
 
       <div class="about">
+        <div class="about__photo reveal">
+          <figure class="photo">
+            <img id="foto-utama" src="assets/img/placeholder-portrait.svg" alt="" width="480" height="600">
+          </figure>
+        </div>
+
         <article class="card glass about__bio reveal">
           <h3 class="card__title accent">Profil Singkat</h3>
           <p class="lead" data-bind="profil.deskripsi"></p>
@@ -118,11 +134,11 @@
 
         <div class="about__side">
           <article class="card glass reveal">
-            <h3 class="card__label"><svg class="icon icon--cyan" aria-hidden="true"><use href="#i-bulb"/></svg> Fun Fact</h3>
+            <h3 class="card__label"><svg class="icon icon--soft" aria-hidden="true"><use href="#i-bulb"/></svg> Fun Fact</h3>
             <p data-bind="profil.funFact"></p>
           </article>
           <article class="card glass reveal">
-            <h3 class="card__label"><svg class="icon icon--coral" aria-hidden="true"><use href="#i-sparkle"/></svg> Harapan</h3>
+            <h3 class="card__label"><svg class="icon icon--soft" aria-hidden="true"><use href="#i-sparkle"/></svg> Harapan</h3>
             <p data-bind="profil.harapan"></p>
           </article>
         </div>
@@ -161,12 +177,12 @@
           <svg class="mm__lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
             <defs>
               <linearGradient id="mm-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#CABEFF"/>
-                <stop offset="50%" stop-color="#FF525C"/>
-                <stop offset="100%" stop-color="#00CBE6"/>
+                <stop offset="0%" stop-color="#FFFFFF"/>
+                <stop offset="50%" stop-color="#9A9AA2"/>
+                <stop offset="100%" stop-color="#3A3A40"/>
               </linearGradient>
             </defs>
-            <g id="mm-lines" stroke="url(#mm-grad)" stroke-width="1.5" fill="none" opacity=".55"
+            <g id="mm-lines" stroke="url(#mm-grad)" stroke-width="1" fill="none" opacity=".4"
                vector-effect="non-scaling-stroke"></g>
           </svg>
           <span class="mm__orbit" aria-hidden="true"></span>

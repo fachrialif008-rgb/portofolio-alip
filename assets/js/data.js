@@ -16,7 +16,7 @@ window.PORTFOLIO_DATA = {
     asalDaerah: "Tangerang Selatan, Banten",
 
     // Foto formal / semi formal. Taruh file di assets/img/ lalu tulis nama filenya.
-    foto: "assets/img/placeholder-portrait.svg",   // GANTI, mis. "assets/img/foto-saya.jpg"
+    foto: "assets/img/foto-profil.jpg",
 
     // Tiga kata yang paling menggambarkan diri
     tigaKata: ["Adaptif", "Teliti", "Penasaran"],  // GANTI
