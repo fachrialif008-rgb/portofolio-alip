@@ -223,7 +223,7 @@
 
     if (anggota.length) pilihAnggota(0);
   }
-  /* ---------- 7. Resume: akordeon (satu terbuka sekaligus) ---------- */
+  /* ---------- 7. Resume: akordeon (bisa terbuka bersamaan) ---------- */
   function blok(judul, isi) {
     return h("div", { children: [
       h("h4", { class: "over", text: judul }),
@@ -268,12 +268,11 @@
     });
 
     function toggle(i) {
-      var buka = !items[i].item.classList.contains("is-open");
-      items.forEach(function (o, j) {
-        var aktif = (j === i) && buka;
-        o.item.classList.toggle("is-open", aktif);
-        o.btn.setAttribute("aria-expanded", aktif ? "true" : "false");
-      });
+      var o = items[i];
+      if (!o) return;
+      var aktif = !o.item.classList.contains("is-open");
+      o.item.classList.toggle("is-open", aktif);
+      o.btn.setAttribute("aria-expanded", aktif ? "true" : "false");
     }
     if (items.length) toggle(0);
   }
