@@ -378,11 +378,13 @@ figure{ margin:0; }
   .mm__center{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:3; }
 }
 .mm__avatar{
-  margin:0 auto 16px; padding:4px; border-radius:50%; width:124px; height:124px;
-  background:var(--surface); border:1px solid var(--line-hi);
+  margin:0 auto 16px; padding:0; border-radius:50%; width:128px; height:128px;
+  background:var(--surface); border:2px solid var(--line-hi);
+  overflow:hidden; display:grid; place-items:center;
+  box-shadow:0 0 24px rgba(255,255,255,0.08);
 }
 /* object-position atas: foto potret tegak dipotong lingkaran tanpa memangkas kepala. */
-.mm__avatar img{ width:100%; height:100%; object-fit:cover; object-position:center top; border-radius:50%; }
+.mm__avatar img{ width:100%; height:100%; object-fit:cover; object-position:center 15%; border-radius:50%; display:block; }
 .mm__name{ font:700 var(--fs-md)/1.35 var(--font-display); margin:0; letter-spacing:-.02em; }
 .mm__meta{
   font:500 10px/1.6 var(--font-mono); letter-spacing:.2em;
@@ -400,21 +402,25 @@ figure{ margin:0; }
 }
 .mm__node:hover{ transform:translateY(-3px); }
 .mm__node-avatar{
-  width:68px; height:68px; padding:3px; border-radius:50%;
-  background:var(--surface); border:1px solid var(--line);
+  width:72px; height:72px; padding:0; border-radius:50%;
+  background:var(--surface); border:1.5px solid var(--line);
   display:grid; place-items:center; overflow:hidden;
-  transition:border-color .25s var(--ease);
+  transition:border-color .25s var(--ease), box-shadow .25s var(--ease);
 }
 .mm__node-avatar img{
   width:100%; height:100%; object-fit:cover; object-position:center 20%; border-radius:50%;
-  filter:grayscale(1) brightness(.9); transition:filter .35s var(--ease);
+  display:block;
+  filter:grayscale(0.5) brightness(.95); transition:filter .35s var(--ease);
 }
 .mm__node-name{
   font:500 10px/1.4 var(--font-mono); letter-spacing:.1em;
   text-transform:uppercase; color:var(--text-3); text-align:center;
 }
 .mm__node:hover .mm__node-avatar,
-.mm__node[aria-pressed="true"] .mm__node-avatar{ border-color:var(--accent); }
+.mm__node[aria-pressed="true"] .mm__node-avatar{
+  border-color:var(--accent);
+  box-shadow:0 0 16px rgba(255,255,255,0.2);
+}
 .mm__node:hover .mm__node-avatar img,
 .mm__node[aria-pressed="true"] .mm__node-avatar img{ filter:none; }
 .mm__node[aria-pressed="true"] .mm__node-name{ color:var(--text); }
@@ -442,7 +448,8 @@ figure{ margin:0; }
 .mm__detail-photo{ margin:0 0 26px; display:flex; align-items:center; gap:16px; }
 .mm__detail-photo img{
   width:76px; height:76px; border-radius:50%; object-fit:cover; object-position:center 20%; flex:none;
-  padding:3px; background:var(--surface); border:1px solid var(--line);
+  padding:0; background:var(--surface); border:1.5px solid var(--line);
+  box-shadow:0 0 14px rgba(255,255,255,0.1); display:block;
 }
 .mm__detail-photo figcaption{
   font:700 var(--fs-h3)/1.25 var(--font-display); letter-spacing:-.02em;
