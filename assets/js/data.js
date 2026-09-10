@@ -75,7 +75,8 @@ window.PORTFOLIO_DATA = {
       fakultas: "Fakultas Teknik Elektro",
       hobi: "Touring",
       funFact: "Susah tidur kalo dimatiin lampunya",
-      foto: "assets/img/Ridho.jpg"
+      foto: "assets/img/Ridho.jpg",
+      posisi: "center 15%"
     },
     {
       nama: "Galang Arya Wirawan",
@@ -84,7 +85,8 @@ window.PORTFOLIO_DATA = {
       fakultas: "Fakultas Rekayasa Industri",
       hobi: "Memasak",
       funFact: "Gasuka hal ribet pengennya satset",
-      foto: "assets/img/galang.jpg"
+      foto: "assets/img/galang.jpg",
+      posisi: "center 25%"
     },
     {
       nama: "Muhammad Dhiya Ramadhan",
@@ -93,7 +95,8 @@ window.PORTFOLIO_DATA = {
       fakultas: "Fakultas Rekayasa Industri",
       hobi: "Bermain game",
       funFact: "Kalau sudah bermain game kadang suka lupa waktu",
-      foto: "assets/img/dhiya.jpg"
+      foto: "assets/img/dhiya.jpg",
+      posisi: "center 20%"
     },
     {
       nama: "Makheis Zidan",
@@ -102,7 +105,8 @@ window.PORTFOLIO_DATA = {
       fakultas: "Fakultas Rekayasa Industri",
       hobi: "Basket",
       funFact: "Tidak pernah ada terpikirkan untuk menjadi mahasiswa telkom",
-      foto: "assets/img/zidan.jpg"
+      foto: "assets/img/zidan.jpg",
+      posisi: "center 25%"
     },
     {
       nama: "Algi Firmansyah",
@@ -111,7 +115,8 @@ window.PORTFOLIO_DATA = {
       fakultas: "Fakultas Rekayasa Industri",
       hobi: "Biliard",
       funFact: "Kalau udah tidur bisa sampe 1 hari lebih",
-      foto: "assets/img/placeholder-square.svg"
+      foto: "assets/img/Algi.jpg",
+      posisi: "center 20%"
     }
   ],
 

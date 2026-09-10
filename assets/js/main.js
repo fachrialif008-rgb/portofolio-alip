@@ -133,9 +133,11 @@
         attrs: { type: "button", "aria-pressed": "false" }
       });
       var fig = h("figure", { class: "mm__node-avatar" });
-      fig.appendChild(guard(h("img", {
+      var nodeImg = guard(h("img", {
         attrs: { src: m.foto, alt: "", width: 84, height: 84, loading: "lazy", decoding: "async" }
-      })));
+      }));
+      if (m.posisi) nodeImg.style.objectPosition = m.posisi;
+      fig.appendChild(nodeImg);
       btn.appendChild(fig);
       btn.appendChild(h("span", {
         class: "mm__node-name",
@@ -184,6 +186,11 @@
       delete foto.dataset.fallback;
       foto.src = m.foto;
       foto.alt = "Foto " + m.nama;
+      foto.style.objectPosition = m.posisi || "center 20%";
+      garisArr.forEach(function (g, j) {
+        g.setAttribute("stroke-width", j === i ? "2" : "1");
+        g.setAttribute("opacity", j === i ? "0.9" : "0.35");
+      });
       $("#mm-detail-nama").textContent = m.nama;
       $("#mm-asal").textContent     = m.asalDaerah || "—";
       $("#mm-prodi").textContent    = m.prodi || "—";
