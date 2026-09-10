@@ -118,23 +118,46 @@
     });
   }
 
-  /* ---------- 6. Mind of Us: node melingkar + garis penghubung ---------- */
+  /* ---------- 6. Mind of Us: node melingkar + modal pop up ---------- */
   var R_RING = 190;   // radius cincin dalam px, sama dengan .mm__orbit (380px)
 
   function renderKelompok() {
     var wrap = $("#mm-nodes"), lines = $("#mm-lines"), kanvas = $(".mm__canvas");
     var anggota = (D.kelompok || []).slice(0, 5);
     var tombol = [], garisArr = [];
-    guard($("#mm-detail-foto"));
+    var modal = $("#mm-modal");
+    var modalDialog = modal ? modal.querySelector(".mm-modal__dialog") : null;
+    var aktifIdx = -1;
+    var modalPembuka = null;
+
+    guard($("#mm-modal-foto"));
+    guard($("#mm-foto"));
+
+    // Profil utama (Muhammad Aliffachri Ramadhan di tengah)
+    var profilUtama = {
+      nama: D.profil.nama,
+      asalDaerah: D.profil.asalDaerah,
+      prodi: D.profil.prodi,
+      fakultas: D.profil.fakultas,
+      hobi: Array.isArray(D.profil.hobi) ? D.profil.hobi.join(", ") : (D.profil.hobi || "—"),
+      funFact: D.profil.funFact,
+      foto: D.profil.foto,
+      posisi: "center 6%",
+      skala: 1.04,
+      isMe: true
+    };
+
+    // Daftar semua entitas untuk navigasi modal: profil utama (0) + 5 anggota kelompok (1..5)
+    var semuaEntitas = [profilUtama].concat(anggota);
 
     anggota.forEach(function (m, i) {
       var btn = h("button", {
         class: "mm__node",
-        attrs: { type: "button", "aria-pressed": "false" }
+        attrs: { type: "button", "aria-pressed": "false", "aria-label": "Lihat detail " + m.nama }
       });
       var fig = h("figure", { class: "mm__node-avatar" });
       var nodeImg = guard(h("img", {
-        attrs: { src: m.foto, alt: "", width: 84, height: 84, loading: "eager", decoding: "sync" }
+        attrs: { src: m.foto, alt: "Foto " + m.nama, width: 84, height: 84, loading: "eager", decoding: "sync" }
       }));
       if (m.posisi) nodeImg.style.objectPosition = m.posisi;
       if (m.skala) nodeImg.style.transform = "scale(" + m.skala + ")";
@@ -144,7 +167,9 @@
         class: "mm__node-name",
         text: m.nama.split(" ").slice(0, 2).join(" ")
       }));
-      btn.addEventListener("click", function () { pilihAnggota(i); });
+      btn.addEventListener("click", function () {
+        bukaModal(i + 1, btn);
+      });
       wrap.appendChild(btn);
       tombol.push(btn);
 
@@ -156,6 +181,20 @@
       lines.appendChild(garis);
       garisArr.push(garis);
     });
+
+    // Avatar tengah (diri sendiri) dapat diklik untuk membuka profil pop up
+    var meBtn = $("#mm-me-avatar") || $(".mm__avatar--me");
+    if (meBtn) {
+      meBtn.addEventListener("click", function () {
+        bukaModal(0, meBtn);
+      });
+      meBtn.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          bukaModal(0, meBtn);
+        }
+      });
+    }
 
     /* Node & garis dihitung dalam px lalu diubah ke persen kanvas, supaya
        keduanya selalu jatuh tepat di atas cincin putus-putus. */
@@ -179,30 +218,127 @@
       tunda = requestAnimationFrame(tataCincin);
     });
 
-    function pilihAnggota(i) {
-      var m = anggota[i];
-      if (!m) return;
-      tombol.forEach(function (b, j) { b.setAttribute("aria-pressed", j === i ? "true" : "false"); });
-      var foto = $("#mm-detail-foto");
-      delete foto.dataset.fallback;
-      foto.src = m.foto;
-      foto.alt = "Foto " + m.nama;
-      foto.style.objectPosition = m.posisi || "center 20%";
-      foto.style.transform = m.skala ? "scale(" + (m.skala * 1.04).toFixed(2) + ")" : "scale(1.04)";
-      garisArr.forEach(function (g, j) {
-        g.setAttribute("stroke-width", j === i ? "2" : "1");
-        g.setAttribute("opacity", j === i ? "0.9" : "0.35");
+    function tampilData(idx) {
+      var entitas = semuaEntitas[idx];
+      if (!entitas) return;
+      aktifIdx = idx;
+
+      // Update state tombol dan garis
+      tombol.forEach(function (b, j) {
+        b.setAttribute("aria-pressed", (j === idx - 1) ? "true" : "false");
       });
-      $("#mm-detail-nama").textContent = m.nama;
-      $("#mm-asal").textContent     = m.asalDaerah || "—";
-      $("#mm-prodi").textContent    = m.prodi || "—";
-      $("#mm-fakultas").textContent = m.fakultas || "—";
-      $("#mm-hobi").textContent     = m.hobi || "—";
-      $("#mm-funfact").textContent  = m.funFact || "—";
+      garisArr.forEach(function (g, j) {
+        var aktif = (j === idx - 1);
+        g.setAttribute("stroke-width", aktif ? "2" : "1");
+        g.setAttribute("opacity", aktif ? "0.9" : "0.35");
+      });
+
+      // Data ke pop up modal
+      var badge = $("#mm-modal-badge");
+      var counter = $("#mm-modal-counter");
+      if (entitas.isMe) {
+        if (badge) badge.textContent = "Pemilik Portofolio";
+        if (counter) counter.textContent = "Profil Utama";
+      } else {
+        if (badge) badge.textContent = "Anggota Kelompok";
+        if (counter) counter.textContent = "Anggota " + idx + " / " + anggota.length;
+      }
+
+      var foto = $("#mm-modal-foto");
+      if (foto) {
+        delete foto.dataset.fallback;
+        foto.src = entitas.foto;
+        foto.alt = "Foto " + entitas.nama;
+        foto.style.objectPosition = entitas.posisi || "center 20%";
+        foto.style.transform = entitas.skala ? "scale(" + (entitas.skala * 1.04).toFixed(2) + ")" : "scale(1.04)";
+      }
+
+      var elNama = $("#mm-modal-nama");
+      if (elNama) elNama.textContent = entitas.nama;
+
+      var elAsal = $("#mm-modal-asal");
+      if (elAsal) elAsal.textContent = entitas.asalDaerah || "—";
+
+      var elProdi = $("#mm-modal-prodi");
+      if (elProdi) elProdi.textContent = entitas.prodi || "—";
+
+      var elFakultas = $("#mm-modal-fakultas");
+      if (elFakultas) elFakultas.textContent = entitas.fakultas || "—";
+
+      var elHobi = $("#mm-modal-hobi");
+      if (elHobi) elHobi.textContent = Array.isArray(entitas.hobi) ? entitas.hobi.join(", ") : (entitas.hobi || "—");
+
+      var elFunfact = $("#mm-modal-funfact");
+      if (elFunfact) elFunfact.textContent = entitas.funFact || "—";
+
+      // Re-trigger animasi pop segar setiap kali ganti anggota
+      if (modalDialog) {
+        modalDialog.classList.remove("is-pop");
+        void modalDialog.offsetWidth;
+        modalDialog.classList.add("is-pop");
+      }
     }
 
-    /* Panel detail hanya menampilkan 1 anggota; untuk PDF semua anggota
-       dicetak sebagai daftar (tersembunyi di layar, muncul saat print). */
+    function bukaModal(idx, opener) {
+      if (!modal) return;
+      if (opener) modalPembuka = opener;
+      tampilData(idx);
+      modal.hidden = false;
+      requestAnimationFrame(function () {
+        modal.classList.add("is-open");
+      });
+      document.body.style.overflow = "hidden";
+      var closeBtn = modal.querySelector(".mm-modal__close");
+      if (closeBtn) closeBtn.focus();
+    }
+
+    function tutupModal() {
+      if (!modal) return;
+      modal.classList.remove("is-open");
+      document.body.style.overflow = "";
+      setTimeout(function () {
+        modal.hidden = true;
+        if (modalPembuka && modalPembuka.focus) modalPembuka.focus();
+      }, 300);
+
+      // Reset node highlight
+      tombol.forEach(function (b) { b.setAttribute("aria-pressed", "false"); });
+      garisArr.forEach(function (g) {
+        g.setAttribute("stroke-width", "1");
+        g.setAttribute("opacity", "0.4");
+      });
+      aktifIdx = -1;
+    }
+
+    function geserModal(step) {
+      var n = semuaEntitas.length;
+      var baru = (aktifIdx + step + n) % n;
+      tampilData(baru);
+    }
+
+    // Event listener tutup & navigasi modal
+    if (modal) {
+      modal.querySelectorAll("[data-mm-close]").forEach(function (el) {
+        el.addEventListener("click", tutupModal);
+      });
+      var prevBtn = $("#mm-modal-prev");
+      if (prevBtn) prevBtn.addEventListener("click", function () { geserModal(-1); });
+      var nextBtn = $("#mm-modal-next");
+      if (nextBtn) nextBtn.addEventListener("click", function () { geserModal(1); });
+
+      document.addEventListener("keydown", function (e) {
+        if (modal.hidden || !modal.classList.contains("is-open")) return;
+        if (e.key === "Escape") {
+          tutupModal();
+        } else if (e.key === "ArrowLeft") {
+          geserModal(-1);
+        } else if (e.key === "ArrowRight") {
+          geserModal(1);
+        }
+      });
+    }
+
+    /* Panel detail untuk PDF semua anggota dicetak sebagai daftar */
     var cetak = h("div", { class: "mm__print" });
     anggota.forEach(function (m) {
       var kotak = h("div", { class: "mm__print-item" });
@@ -220,8 +356,6 @@
     });
     var indukCetak = $("#mindofus .container");
     if (indukCetak) indukCetak.appendChild(cetak);
-
-    if (anggota.length) pilihAnggota(0);
   }
   /* ---------- 7. Resume: akordeon (bisa terbuka bersamaan) ---------- */
   function blok(judul, isi) {

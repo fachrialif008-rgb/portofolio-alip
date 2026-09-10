@@ -187,7 +187,7 @@
           <span class="mm__orbit" aria-hidden="true"></span>
 
           <div class="mm__center">
-            <figure class="mm__avatar mm__avatar--me glass">
+            <figure class="mm__avatar mm__avatar--me glass" id="mm-me-avatar" role="button" tabindex="0" aria-label="Lihat profil Muhammad Aliffachri Ramadhan" title="Klik untuk melihat profil saya">
               <img id="mm-foto" src="assets/img/placeholder-square.svg" alt="" width="140" height="140">
             </figure>
             <p class="mm__name" data-bind="profil.nama"></p>
@@ -199,22 +199,54 @@
           <div class="mm__nodes" id="mm-nodes" role="group" aria-label="Anggota kelompok"></div>
         </div>
 
-        <aside class="mm__detail card glass" id="mm-detail" aria-live="polite">
-          <h3 class="card__title accent">Detail Anggota</h3>
-          <figure class="mm__detail-photo">
-            <div class="mm__detail-avatar">
-              <img id="mm-detail-foto" src="assets/img/placeholder-square.svg" alt="" width="96" height="96">
-            </div>
-            <figcaption id="mm-detail-nama">Pilih anggota</figcaption>
-          </figure>
-          <dl class="deflist">
-            <div><dt>Asal Daerah</dt><dd id="mm-asal">—</dd></div>
-            <div><dt>Program Studi</dt><dd id="mm-prodi">—</dd></div>
-            <div><dt>Fakultas</dt><dd id="mm-fakultas">—</dd></div>
-            <div><dt>Hobi</dt><dd id="mm-hobi">—</dd></div>
-            <div><dt>Fun Fact</dt><dd id="mm-funfact">—</dd></div>
-          </dl>
-        </aside>
+        <p class="mm__hint">
+          <svg class="icon icon--soft" aria-hidden="true" width="16" height="16"><use href="#i-sparkle"/></svg>
+          <span>Klik foto untuk melihat pop up detail profil</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Pop-up Modal Detail Anggota Mind of Us -->
+    <div class="mm-modal" id="mm-modal" role="dialog" aria-modal="true" aria-labelledby="mm-modal-nama" hidden>
+      <div class="mm-modal__backdrop" data-mm-close tabindex="-1"></div>
+      <div class="mm-modal__dialog card glass" role="document">
+        <button type="button" class="mm-modal__close" data-mm-close aria-label="Tutup pop up">
+          <svg class="icon" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+
+        <header class="mm-modal__head">
+          <span class="mm-modal__badge" id="mm-modal-badge">Anggota Kelompok</span>
+          <span class="mm-modal__counter" id="mm-modal-counter">1 / 5</span>
+        </header>
+
+        <figure class="mm-modal__photo">
+          <div class="mm-modal__avatar">
+            <img id="mm-modal-foto" src="assets/img/placeholder-square.svg" alt="" width="112" height="112">
+          </div>
+          <figcaption class="mm-modal__nama" id="mm-modal-nama">Nama Anggota</figcaption>
+        </figure>
+
+        <dl class="deflist mm-modal__deflist">
+          <div><dt>Asal Daerah</dt><dd id="mm-modal-asal">—</dd></div>
+          <div><dt>Program Studi</dt><dd id="mm-modal-prodi">—</dd></div>
+          <div><dt>Fakultas</dt><dd id="mm-modal-fakultas">—</dd></div>
+          <div><dt>Hobi</dt><dd id="mm-modal-hobi">—</dd></div>
+          <div><dt>Fun Fact</dt><dd id="mm-modal-funfact">—</dd></div>
+        </dl>
+
+        <footer class="mm-modal__nav">
+          <button type="button" class="mm-modal__nav-btn" id="mm-modal-prev" aria-label="Anggota sebelumnya">
+            <svg class="icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+            <span>Sebelumnya</span>
+          </button>
+          <button type="button" class="mm-modal__nav-btn" id="mm-modal-next" aria-label="Anggota berikutnya">
+            <span>Berikutnya</span>
+            <svg class="icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </footer>
       </div>
     </div>
   </section>
