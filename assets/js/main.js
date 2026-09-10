@@ -134,9 +134,10 @@
       });
       var fig = h("figure", { class: "mm__node-avatar" });
       var nodeImg = guard(h("img", {
-        attrs: { src: m.foto, alt: "", width: 84, height: 84, loading: "lazy", decoding: "async" }
+        attrs: { src: m.foto, alt: "", width: 84, height: 84, loading: "eager", decoding: "sync" }
       }));
       if (m.posisi) nodeImg.style.objectPosition = m.posisi;
+      if (m.skala) nodeImg.style.transform = "scale(" + m.skala + ")";
       fig.appendChild(nodeImg);
       btn.appendChild(fig);
       btn.appendChild(h("span", {
@@ -187,6 +188,7 @@
       foto.src = m.foto;
       foto.alt = "Foto " + m.nama;
       foto.style.objectPosition = m.posisi || "center 20%";
+      foto.style.transform = m.skala ? "scale(" + (m.skala * 1.04).toFixed(2) + ")" : "scale(1.04)";
       garisArr.forEach(function (g, j) {
         g.setAttribute("stroke-width", j === i ? "2" : "1");
         g.setAttribute("opacity", j === i ? "0.9" : "0.35");

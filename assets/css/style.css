@@ -381,10 +381,10 @@ figure{ margin:0; }
   margin:0 auto 16px; padding:0; border-radius:50%; width:128px; height:128px;
   background:var(--surface); border:2px solid var(--line-hi);
   overflow:hidden; display:grid; place-items:center;
-  box-shadow:0 0 24px rgba(255,255,255,0.08);
+  box-shadow:0 0 24px rgba(255,255,255,0.08); -webkit-mask-image:-webkit-radial-gradient(white, black);
 }
 /* object-position atas: foto potret tegak dipotong lingkaran tanpa memangkas kepala. */
-.mm__avatar img{ width:100%; height:100%; object-fit:cover; object-position:center 15%; border-radius:50%; display:block; }
+.mm__avatar img{ width:100%; height:100%; object-fit:cover; object-position:center 6%; display:block; transform:scale(1.04); }
 .mm__name{ font:700 var(--fs-md)/1.35 var(--font-display); margin:0; letter-spacing:-.02em; }
 .mm__meta{
   font:500 10px/1.6 var(--font-mono); letter-spacing:.2em;
@@ -405,12 +405,12 @@ figure{ margin:0; }
   width:72px; height:72px; padding:0; border-radius:50%;
   background:var(--surface); border:1.5px solid var(--line);
   display:grid; place-items:center; overflow:hidden;
-  transition:border-color .25s var(--ease), box-shadow .25s var(--ease);
+  transition:border-color .25s var(--ease), box-shadow .25s var(--ease); -webkit-mask-image:-webkit-radial-gradient(white, black);
 }
 .mm__node-avatar img{
-  width:100%; height:100%; object-fit:cover; object-position:center 20%; border-radius:50%;
-  display:block;
-  filter:grayscale(0.5) brightness(.95); transition:filter .35s var(--ease);
+  width:100%; height:100%; object-fit:cover; object-position:center 20%;
+  display:block; transform:scale(1.04);
+  filter:grayscale(0.5) brightness(.95); transition:filter .35s var(--ease), transform .25s var(--ease);
 }
 .mm__node-name{
   font:500 10px/1.4 var(--font-mono); letter-spacing:.1em;
@@ -446,10 +446,16 @@ figure{ margin:0; }
 /* Daftar lengkap anggota — dibuat main.js, hanya tampil saat print (bagian 16). */
 .mm__print{ display:none; }
 .mm__detail-photo{ margin:0 0 26px; display:flex; align-items:center; gap:16px; }
+.mm__detail-avatar{
+  width:76px; height:76px; border-radius:50%; overflow:hidden; flex:none;
+  background:var(--surface); border:1.5px solid var(--line);
+  box-shadow:0 0 14px rgba(255,255,255,0.1); display:grid; place-items:center;
+  -webkit-mask-image:-webkit-radial-gradient(white, black);
+}
+.mm__detail-avatar img,
 .mm__detail-photo img{
-  width:76px; height:76px; border-radius:50%; object-fit:cover; object-position:center 20%; flex:none;
-  padding:0; background:var(--surface); border:1.5px solid var(--line);
-  box-shadow:0 0 14px rgba(255,255,255,0.1); display:block;
+  width:100%; height:100%; object-fit:cover; object-position:center 20%; flex:none;
+  padding:0; border:0; display:block; transform:scale(1.04);
 }
 .mm__detail-photo figcaption{
   font:700 var(--fs-h3)/1.25 var(--font-display); letter-spacing:-.02em;
