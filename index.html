@@ -172,7 +172,6 @@
       </header>
 
       <div class="mm reveal">
-        <!-- Kanvas Konstelasi Radial -->
         <div class="mm__canvas">
           <svg class="mm__lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
             <defs>
@@ -188,7 +187,7 @@
           <span class="mm__orbit" aria-hidden="true"></span>
 
           <div class="mm__center">
-            <figure class="mm__avatar mm__avatar--me glass" id="mm-me-avatar" role="button" tabindex="0" aria-label="Lihat profil Muhammad Aliffachri Ramadhan" title="Klik untuk fokus profil saya">
+            <figure class="mm__avatar mm__avatar--me glass">
               <img id="mm-foto" src="assets/img/placeholder-square.svg" alt="" width="140" height="140">
             </figure>
             <p class="mm__name" data-bind="profil.nama"></p>
@@ -200,49 +199,22 @@
           <div class="mm__nodes" id="mm-nodes" role="group" aria-label="Anggota kelompok"></div>
         </div>
 
-        <!-- Tombol Aksi & Petunjuk -->
-        <div class="mm__bar">
-          <p class="mm__hint">
-            <svg class="icon icon--soft" aria-hidden="true" width="16" height="16"><use href="#i-sparkle"/></svg>
-            <span>5 Anggota Kelompok • Klik foto untuk fokus anggota atau buka pop up</span>
-          </p>
-          <button type="button" class="btn btn--soft mm__popup-btn" id="mm-btn-open-popup" aria-haspopup="dialog">
-            <svg class="icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-            <span>Buka Pop Up Semua Anggota (5)</span>
-          </button>
-        </div>
-
-        <!-- Grid 5 Anggota Lengkap Sekaligus (Tampil di Halaman & Tercetak Rapi di PDF) -->
-        <div class="mm__cards" id="mm-cards-list" role="region" aria-label="Daftar profil 5 anggota kelompok"></div>
-      </div>
-    </div>
-
-    <!-- Pop-up Modal yang Menampilkan 5 Anggota Sekaligus -->
-    <div class="mm-modal" id="mm-modal" role="dialog" aria-modal="true" aria-labelledby="mm-modal-title" hidden>
-      <div class="mm-modal__backdrop" data-mm-close tabindex="-1"></div>
-      <div class="mm-modal__dialog mm-modal__dialog--all card glass" role="document">
-        <header class="mm-modal__head-all">
-          <div class="mm-modal__info-all">
-            <span class="mm-modal__badge">Mind of Us • 5 Anggota Kelompok</span>
-            <h3 class="mm-modal__title-all" id="mm-modal-title">Profil Semua Anggota Kelompok</h3>
-            <p class="mm-modal__sub-all">Seluruh data teman satu kelompok Gugus Pemuda ditampilkan sekaligus</p>
-          </div>
-          <div class="mm-modal__actions-all">
-            <button type="button" class="btn btn--soft mm-modal__print-btn" id="mm-modal-print-btn" title="Cetak / Simpan sebagai PDF">
-              <svg class="icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-              <span>Cetak PDF</span>
-            </button>
-            <button type="button" class="mm-modal__close" data-mm-close aria-label="Tutup pop up">
-              <svg class="icon" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            </button>
-          </div>
-        </header>
-
-        <!-- Grid 5 Anggota di dalam Pop Up -->
-        <div class="mm-modal__grid-all" id="mm-modal-cards-grid"></div>
+        <aside class="mm__detail card glass" id="mm-detail" aria-live="polite">
+          <h3 class="card__title accent">Detail Anggota</h3>
+          <figure class="mm__detail-photo">
+            <div class="mm__detail-avatar">
+              <img id="mm-detail-foto" src="assets/img/placeholder-square.svg" alt="" width="96" height="96">
+            </div>
+            <figcaption id="mm-detail-nama">Pilih anggota</figcaption>
+          </figure>
+          <dl class="deflist">
+            <div><dt>Asal Daerah</dt><dd id="mm-asal">—</dd></div>
+            <div><dt>Program Studi</dt><dd id="mm-prodi">—</dd></div>
+            <div><dt>Fakultas</dt><dd id="mm-fakultas">—</dd></div>
+            <div><dt>Hobi</dt><dd id="mm-hobi">—</dd></div>
+            <div><dt>Fun Fact</dt><dd id="mm-funfact">—</dd></div>
+          </dl>
+        </aside>
       </div>
     </div>
   </section>

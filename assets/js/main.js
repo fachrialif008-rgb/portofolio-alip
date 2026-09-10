@@ -118,83 +118,23 @@
     });
   }
 
-  /* ---------- 6. Mind of Us: konstelasi radial + 5 anggota sekaligus ---------- */
+  /* ---------- 6. Mind of Us: node melingkar + garis penghubung ---------- */
   var R_RING = 190;   // radius cincin dalam px, sama dengan .mm__orbit (380px)
 
   function renderKelompok() {
     var wrap = $("#mm-nodes"), lines = $("#mm-lines"), kanvas = $(".mm__canvas");
-    var cardsList = $("#mm-cards-list");
-    var modalCardsGrid = $("#mm-modal-cards-grid");
-    var modal = $("#mm-modal");
     var anggota = (D.kelompok || []).slice(0, 5);
-    var tombol = [], garisArr = [], kartuArr = [];
+    var tombol = [], garisArr = [];
+    guard($("#mm-detail-foto"));
 
-    guard($("#mm-foto"));
-
-    // Fungsi membuat elemen kartu anggota
-    function buatKartu(m, i, prefix) {
-      var card = h("article", {
-        class: "mm-card card glass",
-        attrs: { id: prefix + "-card-" + i }
-      });
-
-      // Header kartu
-      var head = h("header", { class: "mm-card__head" });
-      var avatar = h("div", { class: "mm-card__avatar" });
-      var img = guard(h("img", {
-        attrs: { src: m.foto, alt: "Foto " + m.nama, width: 68, height: 68, loading: "lazy" }
-      }));
-      if (m.posisi) img.style.objectPosition = m.posisi;
-      if (m.skala) img.style.transform = "scale(" + (m.skala * 1.04).toFixed(2) + ")";
-      avatar.appendChild(img);
-
-      var meta = h("div", { class: "mm-card__meta" });
-      meta.appendChild(h("span", { class: "mm-card__num", text: "Anggota 0" + (i + 1) }));
-      meta.appendChild(h("h3", { class: "mm-card__name", text: m.nama }));
-
-      head.appendChild(avatar);
-      head.appendChild(meta);
-      card.appendChild(head);
-
-      // Deflist rincian
-      var dl = h("dl", { class: "deflist mm-card__deflist" });
-      [["Asal Daerah", m.asalDaerah],
-       ["Program Studi", m.prodi],
-       ["Fakultas", m.fakultas],
-       ["Hobi", m.hobi],
-       ["Fun Fact", m.funFact]].forEach(function (p) {
-        dl.appendChild(h("div", { children: [
-          h("dt", { text: p[0] }),
-          h("dd", { text: p[1] || "—" })
-        ] }));
-      });
-      card.appendChild(dl);
-
-      return card;
-    }
-
-    // Render 5 kartu di halaman & di dalam modal pop up
     anggota.forEach(function (m, i) {
-      // 1. Kartu di halaman
-      if (cardsList) {
-        var cardOnPage = buatKartu(m, i, "page");
-        cardsList.appendChild(cardOnPage);
-        kartuArr.push(cardOnPage);
-      }
-      // 2. Kartu di modal pop up (semua 5 muncul sekaligus)
-      if (modalCardsGrid) {
-        var cardInModal = buatKartu(m, i, "modal");
-        modalCardsGrid.appendChild(cardInModal);
-      }
-
-      // Tombol node melingkar pada konstelasi
       var btn = h("button", {
         class: "mm__node",
-        attrs: { type: "button", "aria-pressed": "false", "aria-label": "Fokus profil " + m.nama }
+        attrs: { type: "button", "aria-pressed": "false" }
       });
       var fig = h("figure", { class: "mm__node-avatar" });
       var nodeImg = guard(h("img", {
-        attrs: { src: m.foto, alt: "Foto " + m.nama, width: 84, height: 84, loading: "eager", decoding: "sync" }
+        attrs: { src: m.foto, alt: "", width: 84, height: 84, loading: "eager", decoding: "sync" }
       }));
       if (m.posisi) nodeImg.style.objectPosition = m.posisi;
       if (m.skala) nodeImg.style.transform = "scale(" + m.skala + ")";
@@ -204,58 +144,21 @@
         class: "mm__node-name",
         text: m.nama.split(" ").slice(0, 2).join(" ")
       }));
-
-      btn.addEventListener("click", function () {
-        fokusAnggota(i);
-      });
+      btn.addEventListener("click", function () { pilihAnggota(i); });
       wrap.appendChild(btn);
       tombol.push(btn);
 
       var garis = document.createElementNS(SVG_NS, "line");
       garis.setAttribute("x1", 50);
       garis.setAttribute("y1", 50);
+      /* preserveAspectRatio="none" meregangkan viewBox; tanpa ini garis ikut menebal. */
       garis.setAttribute("vector-effect", "non-scaling-stroke");
       lines.appendChild(garis);
       garisArr.push(garis);
     });
 
-    // Fungsi fokus anggota saat node diklik
-    function fokusAnggota(i) {
-      tombol.forEach(function (b, j) {
-        b.setAttribute("aria-pressed", (j === i) ? "true" : "false");
-      });
-      garisArr.forEach(function (g, j) {
-        var aktif = (j === i);
-        g.setAttribute("stroke-width", aktif ? "2" : "1");
-        g.setAttribute("opacity", aktif ? "0.9" : "0.35");
-      });
-
-      // Scroll halus ke kartu anggota di halaman dan berikan efek highlight
-      var targetCard = kartuArr[i];
-      if (targetCard) {
-        kartuArr.forEach(function (c) { c.classList.remove("is-highlighted"); });
-        targetCard.classList.add("is-highlighted");
-        targetCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
-        setTimeout(function () {
-          targetCard.classList.remove("is-highlighted");
-        }, 2200);
-      }
-    }
-
-    // Avatar diri sendiri di tengah
-    var meBtn = $("#mm-me-avatar") || $(".mm__avatar--me");
-    if (meBtn) {
-      meBtn.addEventListener("click", function () {
-        tombol.forEach(function (b) { b.setAttribute("aria-pressed", "false"); });
-        garisArr.forEach(function (g) {
-          g.setAttribute("stroke-width", "1");
-          g.setAttribute("opacity", "0.4");
-        });
-        kanvas.scrollIntoView({ behavior: "smooth", block: "center" });
-      });
-    }
-
-    // Tata cincin radial
+    /* Node & garis dihitung dalam px lalu diubah ke persen kanvas, supaya
+       keduanya selalu jatuh tepat di atas cincin putus-putus. */
     function tataCincin() {
       var w = kanvas.clientWidth, t = kanvas.clientHeight;
       if (!w || !t) return;
@@ -276,54 +179,49 @@
       tunda = requestAnimationFrame(tataCincin);
     });
 
-    // Kontrol Modal Pop Up (menampilkan 5 anggota sekaligus)
-    function bukaModalSemua() {
-      if (!modal) return;
-      modal.hidden = false;
-      requestAnimationFrame(function () {
-        modal.classList.add("is-open");
+    function pilihAnggota(i) {
+      var m = anggota[i];
+      if (!m) return;
+      tombol.forEach(function (b, j) { b.setAttribute("aria-pressed", j === i ? "true" : "false"); });
+      var foto = $("#mm-detail-foto");
+      delete foto.dataset.fallback;
+      foto.src = m.foto;
+      foto.alt = "Foto " + m.nama;
+      foto.style.objectPosition = m.posisi || "center 20%";
+      foto.style.transform = m.skala ? "scale(" + (m.skala * 1.04).toFixed(2) + ")" : "scale(1.04)";
+      garisArr.forEach(function (g, j) {
+        g.setAttribute("stroke-width", j === i ? "2" : "1");
+        g.setAttribute("opacity", j === i ? "0.9" : "0.35");
       });
-      document.body.style.overflow = "hidden";
-      var closeBtn = modal.querySelector(".mm-modal__close");
-      if (closeBtn) closeBtn.focus();
+      $("#mm-detail-nama").textContent = m.nama;
+      $("#mm-asal").textContent     = m.asalDaerah || "—";
+      $("#mm-prodi").textContent    = m.prodi || "—";
+      $("#mm-fakultas").textContent = m.fakultas || "—";
+      $("#mm-hobi").textContent     = m.hobi || "—";
+      $("#mm-funfact").textContent  = m.funFact || "—";
     }
 
-    function tutupModalSemua() {
-      if (!modal) return;
-      modal.classList.remove("is-open");
-      document.body.style.overflow = "";
-      setTimeout(function () {
-        modal.hidden = true;
-      }, 300);
-    }
-
-    var btnOpenPopup = $("#mm-btn-open-popup");
-    if (btnOpenPopup) {
-      btnOpenPopup.addEventListener("click", bukaModalSemua);
-    }
-
-    if (modal) {
-      modal.querySelectorAll("[data-mm-close]").forEach(function (el) {
-        el.addEventListener("click", tutupModalSemua);
+    /* Panel detail hanya menampilkan 1 anggota; untuk PDF semua anggota
+       dicetak sebagai daftar (tersembunyi di layar, muncul saat print). */
+    var cetak = h("div", { class: "mm__print" });
+    anggota.forEach(function (m) {
+      var kotak = h("div", { class: "mm__print-item" });
+      kotak.appendChild(h("p", { class: "mm__print-nama", text: m.nama }));
+      var dl = h("dl", { class: "deflist" });
+      [["Asal Daerah", m.asalDaerah], ["Program Studi", m.prodi], ["Fakultas", m.fakultas],
+       ["Hobi", m.hobi], ["Fun Fact", m.funFact]].forEach(function (p) {
+        dl.appendChild(h("div", { children: [
+          h("dt", { text: p[0] }),
+          h("dd", { text: p[1] || "—" })
+        ] }));
       });
+      kotak.appendChild(dl);
+      cetak.appendChild(kotak);
+    });
+    var indukCetak = $("#mindofus .container");
+    if (indukCetak) indukCetak.appendChild(cetak);
 
-      var printBtn = $("#mm-modal-print-btn");
-      if (printBtn) {
-        printBtn.addEventListener("click", function () {
-          tutupModalSemua();
-          setTimeout(function () {
-            window.print();
-          }, 350);
-        });
-      }
-
-      document.addEventListener("keydown", function (e) {
-        if (modal.hidden || !modal.classList.contains("is-open")) return;
-        if (e.key === "Escape") {
-          tutupModalSemua();
-        }
-      });
-    }
+    if (anggota.length) pilihAnggota(0);
   }
   /* ---------- 7. Resume: akordeon (bisa terbuka bersamaan) ---------- */
   function blok(judul, isi) {
