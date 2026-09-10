@@ -273,6 +273,7 @@
 
   function renderGaleri() {
     var grid = $("#galeri-grid");
+    if (!grid) return;
     (D.galeri || []).forEach(function (g, i) {
       var btn = h("button", {
         class: "gallery__item reveal" + (g.ratio === "tall" ? " gallery__item--tall" : ""),
@@ -285,7 +286,8 @@
       btn.addEventListener("click", function () { lbBuka(i); });
       grid.appendChild(btn);
     });
-    $("#galeri-count").textContent = (D.galeri || []).length + " momen";
+    var cnt = $("#galeri-count");
+    if (cnt) cnt.textContent = (D.galeri || []).length + " momen";
   }
 
   function lbTampil(i) {
@@ -314,6 +316,8 @@
     lbTampil((lbIndex + step + n) % n);
   }
   function initLightbox() {
+    var lb = $("#lightbox");
+    if (!lb) return;
     $$("#lightbox [data-lb]").forEach(function (n) {
       n.addEventListener("click", function () {
         var a = n.dataset.lb;
